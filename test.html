@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>các Script</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      padding: 24px;
+      background: #f7fafc;
+      color: #0f172a;
+    }
+    .card {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+      padding: 18px;
+    }
+    .text-block {
+      white-space: pre-wrap; /* giữ xuống dòng */
+      user-select: text;     /* cho phép chọn */
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #e6edf3;
+      background: #fbfeff;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      appearance: none;
+      border: none;
+      background: #2563eb;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .hint {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #475569;
+    }
+    .toast {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 13px;
+      color: #065f46;
+      background: #d1fae5;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #86efac;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" role="region" aria-label="Văn bản có thể sao chép">
+    <h2>Các Script</h2>
+
+    <div id="textBlock" class="text-block" tabindex="0" aria-readonly="true">
+---Blue-X---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/Main.lua"))()
+
+
+---Quantum-Hub---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+
+
+---Cokka-Hub---
+loadstring(game:HttpGet"https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua")()
+
+
+---Ldt-Hub---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/thohihi312-coder/ldt-hub/refs/heads/main/main.lua.txt"))()
+
+
+---Vector-Hub---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AAwful/Vector_Hub/0/v2"))()
+
+
+---Than-Hub---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/thantzy/thanhub/refs/heads/main/thanv1"))()
+
+
+---Zinner-Hub---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/HoangNguyenk8/Roblox/refs/heads/main/BF-Main.luau"))()
+
+
+---Xero-Hub---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Xero2409/XeroHub/refs/heads/main/main.lua"))()
+
+
+---Volcano-Hub-V3---
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/indexeduu/BF-NewVer/refs/heads/main/V3New.lua"))()
+
+
+---REDZ---
+local Settings = {
+  JoinTeam = "Pirates"; -- Pirates/Marines
+  Translator = true; -- true/false
+}
+
+getgenv().BETA_VERSION = true
+loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))(Settings)
+
+
+---W-azure---
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/85e904ae1ff30824c1aa007fc7324f8f.lua"))()
+
+
+---HOHO---
+loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()
+    </div>
+
+    <div class="controls">
+      <button id="copyBtn" type="button" aria-label="Sao chép văn bản">Sao chép</button>
+      <button id="selectBtn" type="button" aria-label="Chọn tất cả văn bản">Chọn tất cả</button>
+      <span id="feedback" aria-live="polite" style="display:none" class="toast">Đã sao chép!</span>
+    </div>
+
+    <p class="hint">Lưu Ý:Khi các bạn ấn sao chép nó sẽ sao chép toàn bộ script,khuyên các bạn nên sao chép từng cái. </p>
+  </div>
+
+  <script>
+    const textBlock = document.getElementById('textBlock');
+    const copyBtn = document.getElementById('copyBtn');
+    const selectBtn = document.getElementById('selectBtn');
+    const feedback = document.getElementById('feedback');
+
+    async function showFeedback(msg = 'Đã sao chép!') {
+      feedback.textContent = msg;
+      feedback.style.display = 'inline-block';
+      // 1.5s hiển thị -> ẩn
+      setTimeout(() => { feedback.style.display = 'none'; }, 1500);
+    }
+
+    // Sao chép bằng Clipboard API (hiện đại) hoặc fallback
+    async function copyText() {
+      const text = textBlock.innerText;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showFeedback('Đã sao chép vào bộ nhớ tạm!');
+        } catch (err) {
+          // nếu bị chặn, thử fallback
+          fallbackCopy(text);
+        }
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      // tạo textarea ẩn, chọn, execCommand
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      // không hiện trên page và tránh làm mất focus
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+
+      const sel = document.getSelection();
+      const previouslyFocused = document.activeElement;
+
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+
+      try {
+        const ok = document.execCommand('copy');
+        if (ok) {
+          showFeedback('Đã sao chép (fallback)!');
+        } else {
+          showFeedback('Không thể sao chép tự động. Hãy sao chép thủ công.');
+        }
+      } catch (e) {
+        showFeedback('Trình duyệt không hỗ trợ sao chép tự động.');
+      }
+
+      // cleanup
+      document.body.removeChild(ta);
+      if (previouslyFocused) previouslyFocused.focus();
+      if (sel) sel.removeAllRanges();
+    }
+
+    copyBtn.addEventListener('click', copyText);
+
+    // Chọn tất cả văn bản trong block (tiện cho copy thủ công)
+    selectBtn.addEventListener('click', () => {
+      const range = document.createRange();
+      range.selectNodeContents(textBlock);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      // focus để người dùng thấy có chọn
+      textBlock.focus();
+    });
+
+    // Phím tắt: Ctrl/Cmd+C khi focus vào block sẽ hoạt động bình thường vì user-select: text
+    // Tùy chọn: có thể thêm aria-live để báo trạng thái cho screen reader (đã dùng aria-live trên feedback).
+  </script>
+</body>
+</html>
