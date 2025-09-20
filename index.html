@@ -262,6 +262,83 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/TRANDUYTHINH/scriptdt
 </body>
 </html>
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thông báo popup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* lớp nền mờ */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none; /* ban đầu ẩn */
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* khung thông báo */
+    .popup {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .popup h2 {
+      margin-top: 0;
+    }
+
+    .popup button {
+      margin-top: 15px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <!-- lớp nền + popup -->
+  <div class="overlay" id="overlay">
+    <div class="popup">
+      <h2>Thông báo</h2>
+      <p>Đây là những script xịn mình sẽ cập nhật mới mỗi ngày!</p>
+      <button onclick="closePopup()">Đóng</button>
+    </div>
+  </div>
+
+  <script>
+    // Hiện popup khi trang vừa tải
+    window.onload = function() {
+      document.getElementById("overlay").style.display = "flex";
+    };
+
+    // Hàm đóng popup
+    function closePopup() {
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+</body>
+</html>
+
+
 
 
 
